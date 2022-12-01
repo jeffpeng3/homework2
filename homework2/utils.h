@@ -12,9 +12,6 @@ extern const char* prompt;
 extern struct _node* root;
 
 int seleteOperation(char mode);
-char* getStringFromFile(FILE* file);
-
-void myStrrev(char* str);
 
 void printSpace(int count);
 

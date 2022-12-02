@@ -244,17 +244,3 @@ void drawTree(Node* root)
 	releaseQueue(queue);
 	free(queue);
 }
-/*
-2 space + text = total
-space = (total - text)/2
-space text space
-
-	   5
-   3       7
- 2   X   X   8
-1 X X X X X X X
-
-
-
-
-*/

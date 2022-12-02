@@ -4,7 +4,7 @@ CFLAGS	= -Wall -O0 -std=c11 -g -c
 CC		= gcc
 
 default: $(OBJS)
-	$(CC) $^ -o main
+	$(CC) $^ -lm -o main
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) $< -o $@

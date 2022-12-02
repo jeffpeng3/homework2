@@ -53,3 +53,16 @@ int isQueueEmpty(Queue* queue)
 	}
 	return 0;
 }
+
+void releaseQueue(Queue* queue){
+	if (!queue){
+		return;
+	}
+	QueueNode* temp;
+	while (queue->head)
+	{
+		temp = queue->head;
+		queue->head = queue->head->next;
+		free(temp);
+	}
+}

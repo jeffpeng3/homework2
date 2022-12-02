@@ -1,7 +1,7 @@
 #include "node.h"
 #include "queue.h"
 #include "utils.h"
-#include <math.h>
+#include "math.h"
 int insertNode(Node** root, int value)
 {
 	Node* temp = calloc(1, sizeof(Node));
@@ -198,12 +198,12 @@ int getLargest(Node* root)
 }
 void drawTree(Node* root)
 {
-	static int height;
+	int maxHeight,height;
 	int maxLength = getIntLen(getLargest(root));
 	int temp;
-	height = getHeight(root);
+	maxHeight = height = getHeight(root);
 	Queue* queue = calloc(1, sizeof(Queue));
-	Node* endFlag = 1;
+	Node* endFlag = (void*)1;
 	QueueNode* queueNode;
 	printf("the graph of tree:");
 	enQueue(queue, endFlag);
@@ -211,9 +211,9 @@ void drawTree(Node* root)
 	while (!isQueueEmpty(queue) && (height > -1))
 	{
 		queueNode = deQueue(queue);
-		if (queueNode->value == 1)
+		if (queueNode->value == (void*)1)
 		{
-			printf("\n");
+			printf("\nlevel %*d\t|",getIntLen(maxHeight),maxHeight-height+1);
 			printSpace(maxLength * (pow(2, height - 1) - 1));
 			height--;
 			enQueue(queue, endFlag);
@@ -234,12 +234,15 @@ void drawTree(Node* root)
 			enQueue(queue, queueNode->value->left);
 			enQueue(queue, queueNode->value->right);
 		}
-		if (queue->head->value != 1)
+		if (queue->head->value != (void*)1)
 		{
 			printSpace(maxLength * (pow(2, height + 1) - 1));
 		}
 		//need remove
 	}
+
+	releaseQueue(queue);
+	free(queue);
 }
 /*
 2 space + text = total

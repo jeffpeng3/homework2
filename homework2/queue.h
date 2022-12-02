@@ -17,3 +17,5 @@ void enQueue(Queue* queue, Node* node);
 QueueNode* deQueue(Queue* queue);
 
 int isQueueEmpty(Queue* queue);
+
+void releaseQueue(Queue* queue);

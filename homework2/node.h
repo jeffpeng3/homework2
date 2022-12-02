@@ -8,16 +8,19 @@ typedef struct _node
 	struct _node* right;
 } Node;
 
+Node* generateNode(int value);
 
-int insertNode(Node** root, int value);
+Node* getNode(Node* root, int value);
 
-int removeLowest(Node** root);
+int insertNode(Node** current, Node* node);
 
-void printTree(Node* current);//need draw
+void removeLowest(Node** root);
+
+void printTree(Node* current);
 
 int getHeight(Node* current);
 
-Node* findLowestCommonNode(Node* root,int num1,int num2);
+Node* findLowestCommonNode(Node* root, int num1, int num2);
 
 void drawTree(Node* current);//need draw
 

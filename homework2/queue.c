@@ -38,6 +38,10 @@ QueueNode* deQueue(Queue* queue)
 	QueueNode* queueNode = queue->head;
 
 	queue->head = queue->head->next;
+	if (!queue->head)
+	{
+		queue->end = NULL;
+	}
 	return queueNode;
 }
 
@@ -54,8 +58,10 @@ int isQueueEmpty(Queue* queue)
 	return 0;
 }
 
-void releaseQueue(Queue* queue){
-	if (!queue){
+void releaseQueue(Queue* queue)
+{
+	if (!queue)
+	{
 		return;
 	}
 	QueueNode* temp;

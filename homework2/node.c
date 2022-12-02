@@ -1,78 +1,64 @@
 #include "node.h"
 #include "queue.h"
 #include "utils.h"
-#include "math.h"
-int insertNode(Node** root, int value)
+Node* getNode(Node* root, int value)
 {
-	Node* temp = calloc(1, sizeof(Node));
-	if (!temp)
+	if (!root)
 	{
-		return 0;
+		return NULL;
 	}
-	temp->value = value;
-	if (*root == NULL)
+	if (root->value < value)
 	{
-		*root = temp;
-		return 0;
+		return getNode(root->right, value);
 	}
-	Node* current = *root;
-	while (1)
+	if (root->value > value)
 	{
-		if (value == current->value)
-		{
-			free(temp);
-			return 1;
-		}
-		if (value > current->value)
-		{
-			if (current->right)
-			{
-				current = current->right;
-			}
-			else
-			{
-				current->right = temp;
-				return 0;
-			}
-		}
-		else
-		{
-			if (current->left)
-			{
-				current = current->left;
-			}
-			else
-			{
-				current->left = temp;
-				return 0;
-			}
-		}
+		return getNode(root->left, value);
 	}
-	return 0;
+	return root;
 }
 
-int removeLowest(Node** root)
+Node* generateNode(int value)
 {
-	if (!*root)
+	Node* node = calloc(1, sizeof(Node));
+	if (!node)
 	{
-		return 1;
+		return NULL;
 	}
-	Node* temp = *root, * current = *root;
-	if (!current->left)
+	node->value = value;
+	return node;
+}
+
+int insertNode(Node** current, Node* node)
+{
+	if (*current == NULL)
 	{
-		temp = *root;
-		*root = current->right;
-		free(temp);
+		*current = node;
 		return 0;
 	}
-	while (current->left)
+	if (node->value > (*current)->value)
 	{
-		temp = current;
-		current = current->left;
+		return insertNode(&((*current)->right), node);
 	}
-	temp->left = current->right;
-	free(current);
-	return 0;
+	if (node->value < (*current)->value)
+	{
+		return insertNode(&((*current)->left), node);
+	}
+	free(node);
+	return 1;
+}
+
+void removeLowest(Node** root)
+{
+	static Node* temp;
+	if (!(*root)->left)
+	{
+		temp = *root;
+		*root = (*root)->right;
+		free(temp);
+		return;
+	}
+	return removeLowest(&((*root)->left));
 }
 
 void printTree(Node* current) // need draw
@@ -120,70 +106,19 @@ Node* findLowestCommonNode(Node* root, int num1, int num2)
 {
 	if (!root)
 	{
-		printf("root not found\n");
 		return NULL;
 	}
-	if (num1 >= num2)
+	if ((root->value > num1) && (root->value > num2))
 	{
-		num1 ^= num2;
-		num2 ^= num1;
-		num1 ^= num2;
+		return findLowestCommonNode(root->left, num1, num2);
 	}
-	Node* current = root;
-	int left = (current->value > num1) && (current->value > num2);
-	int right = (current->value < num1) && (current->value < num2);
-	while (left || right)
+	if ((root->value < num1) && (root->value < num2))
 	{
-		if (left)
-		{
-			current = current->left;
-		}
-		else
-		{
-			current = current->right;
-		}
-		if (current != 0)
-		{
-			left = (current->value > num1) && (current->value > num2);
-			right = (current->value < num1) && (current->value < num2);
-		}
-		else
-		{
-			left = 0;
-			right = 0;
-		}
-	}
-	root = current;
-	while (1)
-	{
-		if (!current)
-		{
-			printf("left not found\n");
-			return NULL;
-		}
-		if (current->value == num1)
-		{
-			break;
-		}
-		current = current->left;
-	}
-	current = root;
-	while (1)
-	{
-		if (!current)
-		{
-
-			printf("right not found\n");
-			return NULL;
-		}
-		if (current->value == num2)
-		{
-			break;
-		}
-		current = current->right;
+		return findLowestCommonNode(root->right, num1, num2);
 	}
 	return root;
 }
+
 int getLargest(Node* root)
 {
 	if (!root)
@@ -196,13 +131,23 @@ int getLargest(Node* root)
 	}
 	return root->value;
 }
+
 void drawTree(Node* root)
 {
-	int maxHeight,height;
+	if (!root)
+	{
+		printf("tree is not exist.\n");
+		return;
+	}
+	int maxHeight, height;
 	int maxLength = getIntLen(getLargest(root));
 	int temp;
 	maxHeight = height = getHeight(root);
 	Queue* queue = calloc(1, sizeof(Queue));
+	if (!queue)
+	{
+		return;
+	}
 	Node* endFlag = (void*)1;
 	QueueNode* queueNode;
 	printf("the graph of tree:");
@@ -213,8 +158,11 @@ void drawTree(Node* root)
 		queueNode = deQueue(queue);
 		if (queueNode->value == (void*)1)
 		{
-			printf("\nlevel %*d\t|",getIntLen(maxHeight),maxHeight-height+1);
-			printSpace(maxLength * (pow(2, height - 1) - 1));
+			if (height)
+			{
+				printf("\n\nlevel %*d\t|", getIntLen(maxHeight), maxHeight - height + 1);
+				printSpace(maxLength * ((1 << (height - 1)) - 1));
+			}
 			height--;
 			enQueue(queue, endFlag);
 			free(queueNode);
@@ -236,11 +184,10 @@ void drawTree(Node* root)
 		}
 		if (queue->head->value != (void*)1)
 		{
-			printSpace(maxLength * (pow(2, height + 1) - 1));
+			printSpace(maxLength * ((1 << (height + 1)) - 1));
 		}
-		//need remove
 	}
-
+	printf("\n");
 	releaseQueue(queue);
 	free(queue);
 }

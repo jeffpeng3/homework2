@@ -45,4 +45,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\homework1\homework1\makefile">
+      <Filter>資源檔</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -119,17 +119,17 @@ Node* findLowestCommonNode(Node* root, int num1, int num2)
 	return root;
 }
 
-int getLargest(Node* root)
+int getLargest(Node* current)
 {
-	if (!root)
+	if (!current)
 	{
 		return 0;
 	}
-	while (root->right)
+	if (current->right)
 	{
-		root = root->right;
+		return getLargest(current->right);
 	}
-	return root->value;
+	return current->value;
 }
 
 void drawTree(Node* root)

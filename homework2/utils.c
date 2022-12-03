@@ -26,7 +26,7 @@ int seleteOperation(char mode)
 	{
 		case 'a':
 		{
-			printf("Please enter a 32bit signed integer :");
+			printf("Please enter a 32-bit integer :");
 			scanf_s(" %d", &value);
 			node = generateNode(value);
 			result = insertNode(&root, node);
@@ -131,10 +131,7 @@ int seleteOperation(char mode)
 
 void printSpace(int count)
 {
-	for (int i = 0; i < count; i++)
-	{
-		printf(" ");
-	}
+	printf("%*s", count, "");
 }
 
 int getIntLen(int value)
@@ -142,7 +139,8 @@ int getIntLen(int value)
 	int l = 1;
 	while (value > 9)
 	{
-		l++; value /= 10;
+		l++;
+		value /= 10;
 	}
 	return l;
 }

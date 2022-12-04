@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "utils.h"
 
 typedef struct _node
@@ -7,6 +7,8 @@ typedef struct _node
 	struct _node* left;
 	struct _node* right;
 } Node;
+
+extern struct _node* root;
 
 Node* generateNode(int value);
 
@@ -24,3 +26,4 @@ Node* findLowestCommonNode(Node* root, int num1, int num2);
 
 void drawTree(Node* current);//need draw
 
+void releaseTree(Node* current);

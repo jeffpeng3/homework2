@@ -132,6 +132,17 @@ int getLargest(Node* current)
 	return current->value;
 }
 
+void releaseTree(Node* current){
+	if (!current)
+	{
+		return;
+	}
+	releaseTree(current->left);
+	releaseTree(current->right);
+	free(current);
+	return;
+}
+
 void drawTree(Node* root)
 {
 	if (!root)
@@ -149,14 +160,14 @@ void drawTree(Node* root)
 		return;
 	}
 	Node* endFlag = (void*)1;
-	QueueNode* queueNode;
+	Node* node;
 	printf("the graph of tree:");
 	enQueue(queue, endFlag);
 	enQueue(queue, root);
 	while (!isQueueEmpty(queue) && (height > -1))
 	{
-		queueNode = deQueue(queue);
-		if (queueNode->value == (void*)1)
+		node = deQueue(queue);
+		if (node == (void*)1)
 		{
 			if (height)
 			{
@@ -165,10 +176,9 @@ void drawTree(Node* root)
 			}
 			height--;
 			enQueue(queue, endFlag);
-			free(queueNode);
 			continue;
 		}
-		if (queueNode->value == NULL)
+		if (node == NULL)
 		{
 			printf("%*s%*s", ((maxLength) / 2) + 1, "-", (maxLength - 1) / 2, "");
 			enQueue(queue, NULL);
@@ -176,11 +186,11 @@ void drawTree(Node* root)
 		}
 		else
 		{
-			temp = queueNode->value->value;
+			temp = node->value;
 
 			printf("%*d%*s", (maxLength + getIntLen(temp) + 1) / 2, temp, (maxLength - getIntLen(temp)) / 2, "");
-			enQueue(queue, queueNode->value->left);
-			enQueue(queue, queueNode->value->right);
+			enQueue(queue, node->left);
+			enQueue(queue, node->right);
 		}
 		if (queue->head->value != (void*)1)
 		{

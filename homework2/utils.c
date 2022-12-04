@@ -8,13 +8,14 @@ const char* prompt =
 "====================================================\n\
 code	description\n\
 (a)	Insert a key into a binary search tree.\n\
-(r)	Remove the key with the lowest value.\n\
-(p)	Print out all keys in increasing order.\n\
-(h)	Compute the height of a binary search tree.\n\
+(c)	Clear this tree.\n\
 (f)	Find the lowest common ancestor node of two given nodes in the tree.\n\
 (g)	Draw this tree.\n\
-(t)	Randomly insert some node.\n\
+(h)	Compute the height of a binary search tree.\n\
+(p)	Print out all keys in increasing order.\n\
 (q)	Quit.\n\
+(r)	Remove the key with the lowest value.\n\
+(t)	Randomly insert some node.\n\
 please select mode:";
 
 int seleteOperation(char mode)
@@ -114,7 +115,12 @@ int seleteOperation(char mode)
 			printf("Successfully added %d nodes.\n", value);
 			return 0;
 		}
-
+		case 'c':
+			{
+				releaseTree(root);
+				root = NULL;
+				return 0;
+			}
 		case 'q':
 		{
 			return -1;

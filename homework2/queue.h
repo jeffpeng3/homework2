@@ -14,7 +14,7 @@ typedef struct _queue
 
 void enQueue(Queue* queue, Node* node);
 
-QueueNode* deQueue(Queue* queue);
+Node* deQueue(Queue* queue);
 
 int isQueueEmpty(Queue* queue);
 

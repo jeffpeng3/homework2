@@ -1,13 +1,18 @@
 SRCS	= $(wildcard ./*.c)
 OBJS	= $(patsubst ./%.c, ./%.o, $(SRCS))
 CFLAGS	= -Wall -std=c11 -g -c
+BINFLAGS= -Wall -std=c11 -g
 CC		= gcc
 
-default: build
+default: $(OBJS)
+	$(CC) $(BINFLAGS) $^ -o main
+	
+
+run: default
 	./main
 
-build: $(OBJS)
-	$(CC) $^ -lm -o main
-
-%.o: %.cpp
+%.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
+
+clear:
+	rm *.o

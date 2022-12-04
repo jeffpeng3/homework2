@@ -25,7 +25,7 @@ void enQueue(Queue* queue, Node* node)
 	queue->end = queueNode;
 }
 
-QueueNode* deQueue(Queue* queue)
+Node* deQueue(Queue* queue)
 {
 	if (!queue)
 	{
@@ -36,13 +36,14 @@ QueueNode* deQueue(Queue* queue)
 		return NULL;
 	}
 	QueueNode* queueNode = queue->head;
-
+	Node* node = queueNode->value;
 	queue->head = queue->head->next;
 	if (!queue->head)
 	{
 		queue->end = NULL;
 	}
-	return queueNode;
+	free(queueNode);
+	return node;
 }
 
 int isQueueEmpty(Queue* queue)
@@ -68,7 +69,8 @@ void releaseQueue(Queue* queue)
 	while (queue->head)
 	{
 		temp = queue->head;
-		queue->head = queue->head->next;
+		queue->head = temp->next;
 		free(temp);
 	}
+	return;
 }

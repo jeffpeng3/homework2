@@ -11,8 +11,9 @@ int main()
 		clearOutput();                                        // clear the console output to make it look easier
 		if (seleteOperation(mode))
 		{
-			return 0;
+			break;
 		}
 	}
+	releaseTree(root);
 	return 0;
 }

@@ -165,10 +165,12 @@ void drawTree(Node* root)
 		printf("tree is not exist.\n");
 		return;
 	}
+	//get width and height
 	int maxHeight, height;
 	int maxLength = getIntLen(getLargest(root));
 	int temp;
 	maxHeight = height = getHeight(root);
+	//level-order traversal
 	Queue* queue = calloc(1, sizeof(Queue));
 	if (!queue)
 	{
@@ -177,11 +179,14 @@ void drawTree(Node* root)
 	Node* endFlag = (void*)1;
 	Node* node;
 	printf("the graph of tree:");
+	//address == 1 then new line
 	enQueue(queue, endFlag);
 	enQueue(queue, root);
 	while (!isQueueEmpty(queue) && (height > -1))
 	{
+		// pop a node
 		node = deQueue(queue);
+		// new line and enqueue to queue
 		if (node == (void*)1)
 		{
 			if (height)
@@ -193,12 +198,14 @@ void drawTree(Node* root)
 			enQueue(queue, endFlag);
 			continue;
 		}
+		// enqueue two empty node and output -
 		if (node == NULL)
 		{
 			printf("%*s%*s", ((maxLength) / 2) + 1, "-", (maxLength - 1) / 2, "");
 			enQueue(queue, NULL);
 			enQueue(queue, NULL);
 		}
+		// enqueue two child node and center align key
 		else
 		{
 			temp = node->value;
@@ -207,12 +214,14 @@ void drawTree(Node* root)
 			enQueue(queue, node->left);
 			enQueue(queue, node->right);
 		}
+		// make it align if it not just new line
 		if (queue->head->value != (void*)1)
 		{
 			printSpace(maxLength * ((1 << (height + 1)) - 1));
 		}
 	}
 	printf("\n");
+	// free queue and it's element
 	releaseQueue(queue);
 	free(queue);
 }

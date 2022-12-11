@@ -2,7 +2,7 @@
 #include <time.h>
 int main()
 {
-	srand(time(0));
+	srand((unsigned int)time(0));
 	char mode;
 	while (1)
 	{
@@ -16,4 +16,4 @@ int main()
 	}
 	releaseTree(root);
 	return 0;
-}
+} 

@@ -27,6 +27,7 @@ int seleteOperation(char mode)
 	{
 		case 'a':
 		{
+			// Insert a key
 			printf("Please enter a 32-bit integer :");
 			scanf_s(" %d", &value);
 			node = generateNode(value);
@@ -47,18 +48,20 @@ int seleteOperation(char mode)
 			{
 				printf("tree is not exist.\n");
 				return 1;
-			}
+			}           
+			// Remove the key with the lowest value
 			removeLowest(&root);
 			return 0;
 		}
 		case 'p':
 		{
-			printTree(root); // use function to print node
+			// Print out all keys in increasing order
+			printTree(root);
 			return 0;
 		}
 		case 'h':
 		{
-			// use function to deduplicate linked list
+			// Compute the height of the tree
 			result = getHeight(root);
 			if (result != -1)
 			{
@@ -76,6 +79,7 @@ int seleteOperation(char mode)
 			scanf_s(" %d", &num1);
 			printf("--number 2:");
 			scanf_s(" %d", &num2);
+			// Find the lowest common ancestor of two nodes
 			node = findLowestCommonNode(root, num1, num2);
 			if (!node)
 			{
@@ -104,6 +108,7 @@ int seleteOperation(char mode)
 		{
 			printf("How many node you need :");
 			scanf_s(" %d", &value);
+			// Randomly insert a node
 			for (int i = 0; i < value; i++)
 			{
 				node = generateNode(rand());
@@ -117,12 +122,14 @@ int seleteOperation(char mode)
 		}
 		case 'c':
 			{
+				// Clear the tree
 				releaseTree(root);
 				root = NULL;
 				return 0;
 			}
 		case 'q':
 		{
+			// Quit
 			return -1;
 		}
 		default:

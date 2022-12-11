@@ -3,6 +3,7 @@
 #include "utils.h"
 Node* getNode(Node* root, int value)
 {
+	// recursive find
 	if (!root)
 	{
 		return NULL;
@@ -20,6 +21,7 @@ Node* getNode(Node* root, int value)
 
 Node* generateNode(int value)
 {
+	//malloc a node and put the value in.
 	Node* node = calloc(1, sizeof(Node));
 	if (!node)
 	{
@@ -31,15 +33,18 @@ Node* generateNode(int value)
 
 int insertNode(Node** current, Node* node)
 {
+	// If the tree is empty, create a new node with the given key and return it
 	if (*current == NULL)
 	{
 		*current = node;
 		return 0;
 	}
+	// If the key is less than the root's key, insert it into the left subtree
 	if (node->value > (*current)->value)
 	{
 		return insertNode(&((*current)->right), node);
 	}
+	// If the key is greater than the root's key, insert it into the right subtree
 	if (node->value < (*current)->value)
 	{
 		return insertNode(&((*current)->left), node);
@@ -58,6 +63,7 @@ void removeLowest(Node** root)
 		free(temp);
 		return;
 	}
+	// Recursively remove the key with the lowest value from the left subtree
 	return removeLowest(&((*root)->left));
 }
 
@@ -73,8 +79,11 @@ void printTree(Node* current) // need draw
 		return;
 	}
 	count++;
+	// Recursively print out the keys in the left subtree in increasing order
 	printTree(current->left);
+	// Print out the current's key
 	printf("%d ", current->value);
+	// Recursively print out the keys in the right subtree in increasing order
 	printTree(current->right);
 	if (count == 1)
 	{
@@ -96,6 +105,7 @@ int getHeight(Node* current)
 		return count;
 	}
 	count++;
+	// Compute the height of the left and right subtrees
 	num[0] = getHeight(current->left);
 	num[1] = getHeight(current->right);
 	count--;
@@ -108,10 +118,12 @@ Node* findLowestCommonNode(Node* root, int num1, int num2)
 	{
 		return NULL;
 	}
+	// If the root's key is greater than both p and q, search the left subtree
 	if ((root->value > num1) && (root->value > num2))
 	{
 		return findLowestCommonNode(root->left, num1, num2);
 	}
+	// If the root's key is less than both p and q, search the right subtree
 	if ((root->value < num1) && (root->value < num2))
 	{
 		return findLowestCommonNode(root->right, num1, num2);
@@ -125,6 +137,7 @@ int getLargest(Node* current)
 	{
 		return 0;
 	}
+	// Recursively find out the keys in the right subtree
 	if (current->right)
 	{
 		return getLargest(current->right);
@@ -133,10 +146,12 @@ int getLargest(Node* current)
 }
 
 void releaseTree(Node* current){
+	// If the tree is empty, return NULL
 	if (!current)
 	{
 		return;
 	}
+	// Recursively clear the left and right subtrees
 	releaseTree(current->left);
 	releaseTree(current->right);
 	free(current);
